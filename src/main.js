@@ -248,7 +248,7 @@ tabSignup.addEventListener('click', () => {
 });
 
 // API Base URL
-const API_URL = 'http://localhost:5000';
+const API_URL = ''; // Uses relative path for Vercel deployment
 
 // Handle Signup
 signupForm.addEventListener('submit', async (e) => {

@@ -1,0 +1,334 @@
+:root {
+  --primary-color: #00e5ff;
+  --secondary-color: #0077ff;
+  --tertiary-color: #ff007f;
+  --bg-color: #020611;
+  --text-color: #ffffff;
+  --glass-bg: rgba(2, 6, 17, 0.6);
+  --glass-border: rgba(0, 229, 255, 0.15);
+  --grad-1: rgba(0, 119, 255, 0.1);
+  --grad-2: rgba(0, 229, 255, 0.05);
+}
+
+body.light-mode {
+  --primary-color: #0088cc;
+  --secondary-color: #0044aa;
+  --tertiary-color: #cc0055;
+  --bg-color: #f0f4f8;
+  --text-color: #1a2b3c;
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(0, 136, 204, 0.2);
+  --grad-1: rgba(0, 136, 204, 0.1);
+  --grad-2: rgba(0, 68, 170, 0.05);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+}
+
+#bg-canvas {
+  transition: none; /* Let ThreeJS handle its own color transitions */
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  overflow: hidden;
+  background: radial-gradient(circle at 20% 50%, var(--grad-1), transparent 50%),
+              radial-gradient(circle at 80% 30%, var(--grad-2), transparent 50%);
+}
+
+#bg-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  mix-blend-mode: screen; 
+}
+
+body.light-mode #bg-canvas {
+  mix-blend-mode: normal; /* In light mode, screen blend mode will wash out. Normal is better. */
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+header, main {
+  pointer-events: auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 5%;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border-radius: 50%;
+  box-shadow: 0 0 15px var(--primary-color);
+}
+
+.logo-accent {
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+}
+
+nav a {
+  color: var(--text-color);
+  opacity: 0.8;
+  text-decoration: none;
+  margin-left: 3rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  font-size: 1rem;
+  position: relative;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background: var(--primary-color);
+  transition: width 0.3s ease;
+  box-shadow: 0 0 10px var(--primary-color);
+}
+
+nav a:hover {
+  opacity: 1;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+.theme-toggle {
+  margin-left: 3rem;
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--text-color);
+}
+
+.theme-toggle:hover {
+  background: var(--glass-bg);
+  transform: scale(1.1);
+  box-shadow: 0 0 15px var(--primary-color);
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 8%;
+  max-width: 1000px;
+}
+
+h1 {
+  font-size: 5.5rem;
+  line-height: 1.05;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 1s ease-out;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.highlight {
+  background: linear-gradient(135deg, var(--text-color), var(--primary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 20px rgba(0, 136, 204, 0.4));
+}
+
+p {
+  font-size: 1.4rem;
+  line-height: 1.6;
+  margin-bottom: 3rem;
+  color: var(--text-color);
+  opacity: 0.8;
+  max-width: 550px;
+  animation: fadeUp 1s ease-out 0.2s backwards;
+  font-weight: 400;
+}
+
+.auth-container {
+  margin-top: 1rem;
+  background: var(--glass-bg);
+  padding: 2rem;
+  border-radius: 24px;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  width: 100%;
+  max-width: 400px;
+  animation: fadeUp 1s ease-out 0.4s backwards;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 1rem;
+}
+
+.auth-tabs button {
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.auth-tabs button.active {
+  opacity: 1;
+}
+
+.auth-tabs button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1rem;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--primary-color);
+  box-shadow: 0 0 10px var(--primary-color);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.auth-form h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.auth-form input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  color: var(--text-color);
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.auth-form input:focus {
+  border-color: var(--primary-color);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+}
+
+.hidden {
+  display: none;
+}
+
+#auth-message {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  min-height: 1.2em;
+}
+
+.cta-button {
+  padding: 1.1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 136, 204, 0.5);
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); filter: blur(10px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 20px rgba(0, 136, 204, 0.4), inset 0 0 10px rgba(255,255,255,0.2); }
+  100% { box-shadow: 0 0 40px rgba(0, 136, 204, 0.6), inset 0 0 20px rgba(255,255,255,0.4); }
+}
+
+@media (max-width: 900px) {
+  h1 { font-size: 4rem; }
+  p { font-size: 1.2rem; }
+}
+
+@media (max-width: 768px) {
+  h1 { font-size: 3rem; }
+  p { font-size: 1.1rem; }
+  nav a { display: none; }
+  .logo { font-size: 1.5rem; }
+}
